@@ -17,25 +17,27 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
 
     people.each do |line|
       # Ignore comments and blank lines
-      unless line.match(/^\s*(#|$)/)
+      # also ensure there's at least one delimiter and data
+      if !line.match(/^\s*(#|$)/) && line.match(/.\|./)
 
         # Split the line into an array and populate variables
         person = line.split('|')
         name = person[0].strip.force_encoding('UTF-8')
         givenstatus = person[1].strip.force_encoding('UTF-8')
 
-        # Figure out what the person's status is, default to "out"
-        case givenstatus
-        when 'WAH'
+        # Convert the person's status to a cute icon, default to "out"
+        # Be totally insensitive, to case
+        case givenstatus.downcase
+        when 'wah'
           icon = 'icon-home'
           status = 'in'
-        when 'Vacation'
+        when 'vacation'
           icon = 'icon-plane'
           status = 'out'
-        when 'In'
+        when 'in'
           icon = 'icon-star'
           status = 'in'
-        when "Offsite"
+        when "offsite"
           icon = 'icon-glass'
           status = 'in'
         else
@@ -48,7 +50,7 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
           comment = person[2].force_encoding('UTF-8')
         end
 
-        # Push the status into the
+        # Push the status into the array
         values.push({ :name => name, :status => status, :comment => comment, :icon => icon })
       end
     end
