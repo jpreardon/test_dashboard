@@ -26,6 +26,11 @@ SCHEDULER.every '1m', :first_in => 0 do |job|
         givenstatus = person[1].strip.force_encoding('UTF-8')
 
         # Convert the person's status to a cute icon, default to "out"
+
+        # These are Font Awesome icons, the icons used below can be swapped for
+        # any of the ones defined by the font-awsome.css. View all the available
+        # icons here: http://fortawesome.github.io/Font-Awesome/3.2.1/icons/
+
         # Be totally insensitive, to case
         case givenstatus.downcase
         when 'wah'
